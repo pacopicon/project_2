@@ -10,7 +10,7 @@
   /* grid-template-columns: repeat(4, 200px); */
   grid-column-gap: 5px;
   padding-bottom: 30px;
-  width: 800px;
+  width: 1000px;
   margin: 0 auto;
 }
 
@@ -27,8 +27,13 @@
   margin: 0 auto;
 }
 
-.handContainer {
-  /* width: 200px; */
+.howToUse {
+  margin: 0 auto;
+  width: 500px;
+}
+
+p {
+  font-size: 20px;
 }
 
 .topCard {
@@ -44,7 +49,7 @@ Button {
   border-radius: 10px;
 }
 
-Button:nth-child(1), Button:nth-child(2), Button:nth-child(3), Button:nth-child(4) {
+Button:nth-child(1), Button:nth-child(2), Button:nth-child(3), Button:nth-child(4), Button:nth-child(5) {
   color: white;
   font-size: 25px;
 }

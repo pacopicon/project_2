@@ -20,7 +20,8 @@ class Deck extends Component {
       isTopCardFaceUp: false,
       viewDeck: false,
       BofC,
-      hand: []
+      hand: [],
+      howToUse: false
     }
     this.shuffle = this.shuffle.bind(this)
     this.flipTopCard = this.flipTopCard.bind(this)
@@ -28,6 +29,7 @@ class Deck extends Component {
     this.viewDeck = this.viewDeck.bind(this)
     this.dealCard = this.dealCard.bind(this)
     this.setButtonStyle = this.setButtonStyle.bind(this)
+    this.renderHowToUse = this.renderHowToUse.bind(this)
   }
 
   shuffle() {
@@ -137,16 +139,16 @@ class Deck extends Component {
 
   setButtonStyle() {
     let 
-      { hand, viewDeck } = this.state,
-      colNum = 4,
+      { hand, viewDeck, howToUse } = this.state,
+      colNum = 5,
       width = 200
 
-    if (hand.length == 52) {
+    if (hand.length == 52 || howToUse) {
       colNum = 1
-      width = 800
+      width = 1000
     } else if (hand.length > 0 && hand.length < 52 || viewDeck) {
-      colNum = 3
-      width = 266.66
+      colNum = 4
+      width = 250
     }
 
     
@@ -155,10 +157,16 @@ class Deck extends Component {
     return style
   }
 
+  renderHowToUse() {
+    this.setState({
+      howToUse: !this.state.howToUse
+    })
+  }
+
 
   render() {
 
-    let { deck, viewDeck, BofC, topCard, hand } = this.state
+    let { deck, viewDeck, BofC, topCard, hand, howToUse } = this.state
 
     let 
       variableWidth = !viewDeck || hand.length>0 ? { width: '200px' } : {},
@@ -169,37 +177,56 @@ class Deck extends Component {
     return (
       <div className="deckContainer">
         <div className='buttons' style={btnVarStyle} >
-          <button className='btn shuffle' onClick={this.shuffle}>shuffle deck</button>
+          <button className='btn shuffle' onClick={this.renderHowToUse}>{howToUse ? 'Back' : 'About'}</button>
           {
-            hand.length>0
+            howToUse
+            ? null
+            : <button className='btn shuffle' onClick={this.shuffle}>shuffle deck</button>
+          }
+          {
+            hand.length>0 || howToUse
             ? null
             : <button className='btn hideView' onClick={this.viewDeck}>{viewDeck ? 'hide card faces' : 'view card faces'}</button>
           }
           {
-            hand.length>51 || viewDeck
+            hand.length>51 || viewDeck || howToUse
             ? null
             : <button className='btn flip' onClick={this.flipTopCard}>flip top card</button>
           }
           {
-            hand.length>51
+            hand.length>51 || howToUse
             ? null
             : <button className='btn deal' onClick={this.dealCard}>deal card</button>
           }
         </div>
-        <div style={variableWidth} className="cardContainer"> 
         {
-          deck && viewDeck
-          ? this.renderCards(deck)
-          : (topCard ? <img className='topCard' key={topCard} src={topCard} alt='' /> : <img className='topCard' key={BofC} src={BofC} alt='' />)
-        }
-        </div>
-        {
-          hand.length>0
-          ? <div className="handContainer">
-              {this.renderCards(hand)}
-            </div> 
-          : ''
-        }
+          howToUse 
+          ? <div className='howToUse'>
+              <p>
+                Besides attempting to fulfill the spirit of the code challenge with a visual rendition of the sought after javascript logic, this project aims also to demonstrate how to handle as many use cases as may arise from the clicking of the UI buttons in random combinations.  The typical React code challenge asks for some sort of UI object that can be manipulated by the user and seeks to ascertain the programmer's skill at rendering these user manipulations.  But what happens when the user insists on manipulating the UI beyond the simple, linear tabulation of UI interactions and adopting a different combination from what may have seemed typical usage?  Edge cases may be found and the code may break.
+              </p> 
+                
+              <p>
+                This project tries to handle as many of these edge scenarios as possible. In order to test, don't just shuffle the deck or deal cards, shuffle the deck and deal cards with the top card flipped.  Deal 5 cards.  Deal 7 cards.  Deal all the cards.  What happens when they've all been dealt?  What happens if I try to shuffle when viewing all of the cards?  What happens to the deck state when I've dealt cards and then decide to shuffle?  (I recommend using React devtools and looking at state all the while clicking buttons)
+              </p>
+            </div>
+          : <div>
+              <div style={variableWidth} className="cardContainer"> 
+              {
+                deck && viewDeck
+                ? this.renderCards(deck)
+                : (topCard ? <img className='topCard' key={topCard} src={topCard} alt='' /> : <img className='topCard' key={BofC} src={BofC} alt='' />)
+              }
+              </div>
+              {
+                hand.length>0
+                ? <div className="handContainer">
+                    {this.renderCards(hand)}
+                  </div> 
+                : ''
+              }
+            </div>
+            }
       </div>
     );
   }
