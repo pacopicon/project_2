@@ -1,13 +1,68 @@
+.deckContainer {
+  position: absolute;
+  width: 100%;
+  top: 30px;
+}
+
+.buttons {
+  display: grid;
+  grid-template-rows: 90px;
+  /* grid-template-columns: repeat(4, 200px); */
+  grid-column-gap: 5px;
+  padding-bottom: 30px;
+  width: 800px;
+  margin: 0 auto;
+}
+
 .deck {
   display: grid;
   grid-template-rows: repeat(4, 90px);
   grid-template-columns: repeat(13, 60px);
+  padding: 0;
+  margin: 0 auto;
+  width: 900px;
 }
 
-.card {
-  height: 200px;
+.cardContainer, .handContainer {
+  margin: 0 auto;
+}
+
+.handContainer {
+  /* width: 200px; */
+}
+
+.topCard {
+  margin: 0 auto;
 }
 
 Button {
   margin-right: 20px;
+  border: none;
+  background-color: lightgray;
+  margin: 0;
+  padding: 0;
+  border-radius: 10px;
 }
+
+Button:nth-child(1), Button:nth-child(2), Button:nth-child(3), Button:nth-child(4) {
+  color: white;
+  font-size: 25px;
+}
+
+Button:hover {
+  background-color: gray;
+  cursor: pointer;
+}
+
+Button:active {
+  background-color: darkgray;
+  cursor: pointer;
+}
+
+/* .shuffle {
+  float: right;
+}
+
+.flip {
+  float: left; */
+/* } */
